@@ -1,0 +1,2 @@
+# vikingrc
+configuration bundle
