@@ -1,0 +1,12 @@
+snippet ariamake
+	CC = g++
+	CXX_FLAGS = -fPIC -I/usr/local/Aria/include/ -L/usr/local/Aria/lib/
+	ARIA_LIBS = -lAria -lpthread -ldl -lrt
+
+	.PHONY : ${1:target}
+
+	$1: ${2:$1.o}
+		$(CC) -o $@ $< $(CXX_FLAGS) $(ARIA_LIBS)
+
+	%.o:%.cc 
+		$(CC) -c -o $@ $< $(CXX_FLAGS) $(ARIA_LIBS)

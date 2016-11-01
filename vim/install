@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# install vim configuration file
+#
+# author: wxm71(weixing.mei@aispeech.com)
+
+if [[ -e $HOME/.vimrc ]]; then
+    echo "${HOME}/.vimrc already exist, will backup to ${HOME}/.vimrc.bk"
+    mv ${HOME}/.vimrc ${HOME}/.vimrc.bk
+    cp ./vimrc $HOME/.vimrc
+fi
+
+
+if [[ -e $HOME/.vim ]]; then
+    echo "${HOME}/.vim already exist, will backup to ${HOME}/.vim.bk"
+    mv ${HOME}/.vim ${HOME}/.vim.bk
+    cp -r ./vim $HOME/.vim 
+fi
+
+echo "vim have configurate successful, you can check ${HOME}/.vimrc for more detail"
+echo
+echo "enjoy life with vim..."
