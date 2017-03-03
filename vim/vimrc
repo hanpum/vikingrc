@@ -95,7 +95,59 @@ command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
               \ | wincmd p | diffthis
 endif
 
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin('~/.vim/bundle/')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+
+" Git plugin not hosted on GitHub
+" Plugin 'https://github.com/wincent/command-t'
+
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+Plugin 'pangloss/vim-javascript'
+
+Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
 
 
@@ -160,7 +212,7 @@ set runtimepath+=$HOME/.vim/omnicppcomplete/
 set runtimepath+=$HOME/.vim/omnicppcomplete/after
 
 " map for generate tags file 
-map <C-F12> :! ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+map <C-F12> :! /usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 map <C-F2> :make <CR>
 
 " set tags+=$HOME/.vim/tags/c.tags
@@ -207,7 +259,7 @@ let Tlist_Exit_OnlyWindow = 1
 let Tlist_Display_Tag_Scope = 0
 let Tlist_Process_File_Always = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
+let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 "let Tlist_File_Fold_Auto_Close = 1
 "let Tlist_Close_On_Select = 1 
 "let Tlist_Display_Prototype = 1
@@ -253,8 +305,9 @@ let g:tex_flavor='latex'        " default file type
 let g:Imap_FreezeImap = 0       " whether stop imaps 
 let b:Imap_FreezeImap = 0       " as above, just work on current buffer 
 let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_CompileRule_pdf = 'pdflatex -interaction=nonstopmode --src-specials $*'
-let g:Tex_ViewRule_pdf = 'foxitReader'
+let g:Tex_CompileRule_pdf = 'xelatex -interaction=nonstopmode --src-specials $*'
+let g:Tex_ViewRule_pdf = 'open'
+let g:Tex_MultipleCompileFormats = "pdf"
 
 
 
@@ -319,7 +372,7 @@ set runtimepath+=$HOME/.vim/tasklist
 
 
 augroup Shebang
-    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: wxm71(weixing.mei@aispeech.com)\" | $ 
+    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: wxm71(weixing.mei@aispeech.com)\<nl>\<nl>import sys\" | $ 
     autocmd BufNewFile *.sh 0put =\"#!/usr/bin/env bash\<nl>#\<nl># Usage: \<nl># Author: wxm71(weixing.mei@aispeech.com)\" | $ 
     autocmd BufNewFile *.py exec 'set keywordprg=pydoc' 
 augroup END
@@ -331,15 +384,6 @@ if filereadable(".workspace.vim")
     source .workspace.vim
 endif
 
-
-" configuration for vim trac 
-set runtimepath+=$HOME/.vim/vimtrac
-set runtimepath+=$HOME/.vim/vimtrac/plugin
-let g:tracServerList = {}
-let g:tracServerList['(asrWiki)'] = 'https://weixing.mei:weixin2013@spetechcular.com/trac/asr/wiki/login/xmlrpc'
-
-" configuration for cscope 
-set runtimepath+=$HOME/.vim/cscope
 
 " configure for echofunction
 let g:EchoFuncShowOnStatus=1
@@ -354,13 +398,13 @@ set modelines=5
 
 " configuration for json
 au! BufRead,BufNewFile *.json set filetype=json 
-
 augroup json_autocmd 
   autocmd! 
   autocmd FileType json set autoindent 
   autocmd FileType json set formatoptions=tcq2l 
-  autocmd FileType json set textwidth=78 shiftwidth=2 
-  autocmd FileType json set softtabstop=2 tabstop=8 
+  autocmd FileType json set textwidth=78 shiftwidth=4
+  autocmd FileType json set softtabstop=4 tabstop=8 
   autocmd FileType json set expandtab 
   autocmd FileType json set foldmethod=syntax 
+  com! FormatJSON %!~/.vim/tools/jsonFormat
 augroup END

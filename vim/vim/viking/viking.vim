@@ -1,6 +1,6 @@
 " *****************************************************************
 " command used to auto check file type
-function CheckFileType()
+function! CheckFileType()
     if exists("b:countCheck") == 0
 	let b:countCheck = 0
     endif

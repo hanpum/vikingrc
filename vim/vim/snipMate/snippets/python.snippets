@@ -80,6 +80,9 @@ snippet try Try/Except/Else/Finally
 # if __name__ == '__main__':
 snippet ifmain
 	if "__main__"==__name__:
+		reload(sys)
+		sys.setdefaultencoding('utf-8')
+
 		${1:main()}
 # __magic__
 snippet _
@@ -161,3 +164,13 @@ snippet parser
 	    fid.close()
 
 	${9:# other process}
+
+snippet fopen 
+	with codecs.open(${1:fname}, '${2:r}', '${3:utf-8}') as fid:
+	    while 1:
+		    line = fid.readline()
+		    if not line:
+			    break
+
+		    line = line.strip()
+		    ${4:# line process}
