@@ -530,3 +530,5 @@ if [ -n "${GIT_PS1_SHOWSTASHSTATE-}" ] &&
 
         return $exit
     }
+
+PS1='\u@\h:\[\e[31;4m\]\W$(__git_ps1 " (%s)")\[\e[0m\]\$'
