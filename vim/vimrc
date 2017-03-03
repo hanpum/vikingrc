@@ -113,8 +113,7 @@ set nobackup
 set tabstop=8
 set shiftwidth=4
 set softtabstop=4
-set expandtab
-"expand the tab with space 
+set noexpandtab
 
 " set the wild menu 
 set wildmenu
@@ -349,3 +348,19 @@ set runtimepath+=$HOME/.vim/echofunc/
 
 " asciidoc
 set runtimepath+=$HOME/.vim/asciidoc/
+
+set modeline
+set modelines=5
+
+" configuration for json
+au! BufRead,BufNewFile *.json set filetype=json 
+
+augroup json_autocmd 
+  autocmd! 
+  autocmd FileType json set autoindent 
+  autocmd FileType json set formatoptions=tcq2l 
+  autocmd FileType json set textwidth=78 shiftwidth=2 
+  autocmd FileType json set softtabstop=2 tabstop=8 
+  autocmd FileType json set expandtab 
+  autocmd FileType json set foldmethod=syntax 
+augroup END
