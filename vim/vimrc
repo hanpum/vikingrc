@@ -98,57 +98,7 @@ endif
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-
-call vundle#begin('~/.vim/bundle/')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-
-" Git plugin not hosted on GitHub
-" Plugin 'https://github.com/wincent/command-t'
-
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-
-" Install L9 and avoid a Naming conflict if you've already installed a
-" different version somewhere else.
-" Plugin 'ascenator/L9', {'name': 'newL9'}
-
-Plugin 'pangloss/vim-javascript'
-
-Plugin 'LaTeX-Suite-aka-Vim-LaTeX'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
-
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
 
 
 "**********************************************************************************
@@ -215,9 +165,6 @@ set runtimepath+=$HOME/.vim/omnicppcomplete/after
 map <C-F12> :! /usr/local/bin/ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 map <C-F2> :make <CR>
 
-" set tags+=$HOME/.vim/tags/c.tags
-" set tags+=$HOME/.vim/tags/log4cpp.tags
-
 let OmniCpp_MayCompleteDot = 1
 let OmniCpp_MayCompleteScope = 1
 let OmniCpp_MayCompleteArrow = 1
@@ -267,20 +214,6 @@ let Tlist_Ctags_Cmd = "/usr/local/bin/ctags"
 
 
 " ++++++++++++++++++++++++++
-" cscope
-" ++++++++++++++++++++++++++
-"map <C-_> : cstag <C-R>=expand("<cword>")<CR><CR>
-
-" set cscopequickfix=s-,c-,d-,i-,t-,e-
-" set cscopetag           " replace the ctags with cscope 
-" set cscopetagorder=0    " set the search order, cscope.out first,then tags 
-" set cscoperelative      " set the path of database file as parameter of P 
-" set cscopeverbose       " give the message while add database 
-
-
-
-
-" ++++++++++++++++++++++++++
 " winmanager 
 " ++++++++++++++++++++++++++
 set runtimepath+=$HOME/.vim/winmanager
@@ -311,15 +244,9 @@ let g:Tex_MultipleCompileFormats = "pdf"
 
 
 
-" load php function list auto 
-"
-"set runtimepath+=$HOME/.vim/php 
-"set runtimepath+=$HOME/.vim/zencoding
-"au FileType php setlocal dict+=/etc/vim/php_funclist.txt
-
 set runtimepath+=$HOME/.vim/pydiction-1.2
 let g:pydiction_location='$HOME/.vim/pydiction-1.2/pydiction/complete-dict'
-"set runtimepath+=$HOME/.vim/pythoncomplete/
+" set runtimepath+=$HOME/.vim/pythoncomplete/
 
 
 " load file type plugin for man 
@@ -336,12 +263,6 @@ set foldclose=all
 
 " disable using mouse select text
 set mouse-=a
-
-
-"set runtimepath+=$HOME/.vim/trac.vim  
-
-
-
 
 " some key for make
 map <F2> <ESC> :wa <CR> :make <CR>
@@ -406,5 +327,5 @@ augroup json_autocmd
   autocmd FileType json set softtabstop=4 tabstop=8 
   autocmd FileType json set expandtab 
   autocmd FileType json set foldmethod=syntax 
-  com! FormatJSON %!~/.vim/tools/jsonFormat
+  com! FormatJSON %!$HOME/.vim/tools/jsonFormat
 augroup END
