@@ -240,6 +240,11 @@ augroup END
 autocmd BufNewFile,BufRead *.conf exec 'set filetype=conf | set ai'
 autocmd BufNewFile,BufRead *.py exec 'set expandtab'
 
+" auto load c and cpp tags
+augroup LoadTags
+    autocmd BufNewFile,BufRead *.h,*.cpp,*.cc,*.hh exec 'set tags+=$HOME/.vim/tags/c.tags,${HOME}/.vim/tags/cpp.tags'
+augroup END
+
 
 set modeline
 set modelines=5
