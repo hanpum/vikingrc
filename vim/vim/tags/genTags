@@ -1,9 +1,8 @@
 #!/bin/bash 
-cmd='ctags --c++-kinds=+p --fields=+iaS --extra=+q --languages=c++'
+cmd='ctags --c++-kinds=+p --fields=+aiS --extra=+q --languages=c++'
 
 $cmd -o c.tags /usr/include/*.h
 $cmd -o c.tags --append=yes -R /usr/include/linux
-$cmd -o c.tags --append=yes -R /usr/include/c++
 $cmd -o c.tags --append=yes -R /usr/include/i386-linux-gnu/
 
-
+$cmd -o cpp.tags -R `pwd`/src/cpp_src/

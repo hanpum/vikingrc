@@ -153,16 +153,21 @@ let g:DoxygenToolkit_authorName="hanpu <hanpu.mwx@alibaba-inc.com>"
 " ++++++++++++++++++++++++++
 " omnicppcomplete 
 " ++++++++++++++++++++++++++
-set runtimepath+=$HOME/.vim/omnicppcomplete/
-set runtimepath+=$HOME/.vim/omnicppcomplete/after
+" set runtimepath+=$HOME/.vim/omnicppcomplete/
+" set runtimepath+=$HOME/.vim/omnicppcomplete/after
 
 " map for generate tags file 
-map <C-F12> :! ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+function! Gentags() 
+    exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ."
+endfunction
+map <C-F12> :call Gentags() <CR>
 map <C-F2> :make <CR>
 
 let OmniCpp_MayCompleteDot = 1
 let OmniCpp_MayCompleteScope = 1
 let OmniCpp_MayCompleteArrow = 1
+let OmniCpp_SelectFirstItem = 2
+let OmniCpp_ShowPrototypeInAbbr = 1
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 
 " close the preview window after complete 
@@ -170,12 +175,13 @@ autocmd CursorMovedI * if pumvisible()==0 | pclose | endif
 autocmd InsertLeave * if pumvisible()==0 | pclose | endif 
 
 
-
 " ++++++++++++++++++++++++++
 " autocomplpop 
 " ++++++++++++++++++++++++++
-set runtimepath+=$HOME/.vim/autocomplpop
-
+" set runtimepath+=$HOME/.vim/autocomplpop
+" 
+" let g:acp_behaviorSnipmateLength = 1
+" let g:acp_completeoptPreview = 1
 
 
 " ++++++++++++++++++++++++++
@@ -183,13 +189,6 @@ set runtimepath+=$HOME/.vim/autocomplpop
 " ++++++++++++++++++++++++++
 set runtimepath+=$HOME/.vim/snipMate
 set runtimepath+=$HOME/.vim/snipMate/after
-let g:acp_behaviorSnipmateLength = 1
-
-
-
-set runtimepath+=$HOME/.vim/pydiction-1.2
-let g:pydiction_location='$HOME/.vim/pydiction-1.2/pydiction/complete-dict'
-" set runtimepath+=$HOME/.vim/pythoncomplete/
 
 
 " load file type plugin for man 
@@ -241,9 +240,9 @@ autocmd BufNewFile,BufRead *.conf exec 'set filetype=conf | set ai'
 autocmd BufNewFile,BufRead *.py exec 'set expandtab'
 
 " auto load c and cpp tags
-augroup LoadTags
-    autocmd BufNewFile,BufRead *.h,*.cpp,*.cc,*.hh exec 'set tags+=$HOME/.vim/tags/c.tags,${HOME}/.vim/tags/cpp.tags'
-augroup END
+" augroup LoadTags
+"     autocmd BufNewFile,BufRead *.h,*.cpp,*.cc,*.hh exec 'set tags+=$HOME/.vim/tags/c.tags,${HOME}/.vim/tags/cpp.tags'
+" augroup END
 
 
 set modeline
@@ -268,7 +267,38 @@ if filereadable(".workspace.vim")
     source .workspace.vim
 endif
 
-" load session file if neccessary
-" if filereadable(".session")
-"     source .session
-" endif
+" configuration for echofunc
+" set statusline+=%{EchoFuncGetStatusLine()}
+" let g:EchoFuncShowOnStatus = 1
+
+set rtp+=${HOME}/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'mattn/emmet-vim'
+Plugin 'marijnh/tern_for_vim'
+call vundle#end()
+
+let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/res/ycm_extra_conf.py"
+let g:ycm_add_preview_to_completeopt=1
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.', 're!\[[_a-zA-Z]+\w*\s', 're!^\s*[^\W\d]\w*\s',
+  \             're!\[.*\]\s'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,typescript,d,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
+
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
