@@ -281,7 +281,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'marijnh/tern_for_vim'
 call vundle#end()
 
-let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/res/ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf="~/.vim/bundle/res/ycm_extra_conf.py"
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
