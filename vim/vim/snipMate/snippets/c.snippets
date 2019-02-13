@@ -20,20 +20,17 @@ snippet inc include system file
 # #include "..."
 snippet Inc 
 	#include "${1:`Filename("$1.h")`}"${2}
+
 # #ifndef ... #define ... #endif
-snippet Def
-	#ifndef $1
-	#define ${1:SYMBOL} ${2:value}
-	#endif${3}
-
-
-snippet Define 
-	#ifndef ___WXM71___${1:PROJECTNAME}_${2:`toupper(Filename($2, 'FILENAME'))`}__HEADER___
-	#define ___WXM71___$1_$2__HEADER___
+snippet ndef 
+	#ifndef ___${1:PROJECTNAME}_${2:`toupper(Filename($2, 'FILENAME'))`}__HEADER___
+	#define ___$1_$2__HEADER___
 	${3}
 	#endif
+
 snippet def
 	#define 
+
 snippet ifdef
 	#ifdef ${1:FOO}
 	    ${2:#define }

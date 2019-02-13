@@ -72,3 +72,29 @@ snippet get
 # Get Element
 snippet gett
 	getElementBy${1:Id}('${2}')${3}
+
+# create react component 
+snippet component
+	import React from 'react';
+	import {connect} from 'react-redux';
+	import {injectIntl} from 'react-intl';
+
+	class ${1:ClassName} extends React.Component {
+	    constructor(props) {
+		super(props);
+	    }
+
+	    render() {
+		return (<div>
+		${2}
+		</div>)
+	    }
+	};
+
+	const mapStateToProps = (state, ownProps) => ({})
+	const mapDispatchToProps = (dispatch) => ({})
+
+	$1.propTypes = {}
+	$1.defaultProps = {}
+
+	export default connect(mapStateToProps, mapDispatchToProps)(injectIntl($1));
