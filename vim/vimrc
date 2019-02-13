@@ -178,10 +178,10 @@ autocmd InsertLeave * if pumvisible()==0 | pclose | endif
 " ++++++++++++++++++++++++++
 " autocomplpop 
 " ++++++++++++++++++++++++++
-" set runtimepath+=$HOME/.vim/autocomplpop
-" 
-" let g:acp_behaviorSnipmateLength = 1
-" let g:acp_completeoptPreview = 1
+set runtimepath+=$HOME/.vim/autocomplpop
+
+let g:acp_behaviorSnipmateLength = 1
+let g:acp_completeoptPreview = 1
 
 
 " ++++++++++++++++++++++++++
@@ -231,7 +231,7 @@ set termencoding=utf-8
 set fileencoding=utf-8
 
 augroup Shebang
-    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: hanpu(hanpu.mwx@alibaba-inc.com)\<nl>\<nl>import sys\" | $ 
+    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python3\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: hanpu(hanpu.mwx@alibaba-inc.com)\<nl>\<nl>import sys\" | $ 
     autocmd BufNewFile *.sh 0put =\"#!/usr/bin/env bash\<nl>#\<nl># Usage: \<nl># Author: hanpu(hanpu.mwx@alibaba-inc.com)\" | $ 
     autocmd BufNewFile *.py exec 'set keywordprg=pydoc' 
 augroup END
@@ -271,14 +271,18 @@ endif
 " set statusline+=%{EchoFuncGetStatusLine()}
 " let g:EchoFuncShowOnStatus = 1
 
+" configuration for jedi-vim 
+let g:jedi#force_py_version = 3
+
 set rtp+=${HOME}/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'mattn/emmet-vim'
-Plugin 'marijnh/tern_for_vim'
+Plugin 'davidhalter/jedi-vim'
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'pangloss/vim-javascript'
+" Plugin 'mxw/vim-jsx'
+" Plugin 'mattn/emmet-vim'
+" Plugin 'marijnh/tern_for_vim'
 call vundle#end()
 
 let g:ycm_global_ycm_extra_conf="~/.vim/bundle/res/ycm_extra_conf.py"
