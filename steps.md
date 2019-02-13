@@ -8,3 +8,4 @@
     $ cd ~/.vikingrc
     $ ./setup.sh
     ```
+3. enjoy
