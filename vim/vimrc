@@ -148,7 +148,7 @@ inoremap <expr> <CR>        pumvisible() ? "\<C-Y>" : "\<CR>"
 " ++++++++++++++++++++++++++
 set runtimepath+=$HOME/.vim/doxygenToolkit/
 let g:DoxygenToolkit_briefTag_pos="<++>"
-let g:DoxygenToolkit_authorName="hanpu <hanpu.mwx@alibaba-inc.com>"
+let g:DoxygenToolkit_authorName="Summer(qingyun_wu@bestsign.cn)"
 
 " ++++++++++++++++++++++++++
 " omnicppcomplete 
@@ -231,8 +231,8 @@ set termencoding=utf-8
 set fileencoding=utf-8
 
 augroup Shebang
-    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python3\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: hanpu(hanpu.mwx@alibaba-inc.com)\<nl>\<nl>import sys\" | $ 
-    autocmd BufNewFile *.sh 0put =\"#!/usr/bin/env bash\<nl>#\<nl># Usage: \<nl># Author: hanpu(hanpu.mwx@alibaba-inc.com)\" | $ 
+    autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python3\<nl># coding: utf-8\<nl>#\<nl># Usage: \<nl># Author: Summer(qingyun_wu@bestsign.cn)\<nl>\<nl>import sys\" | $ 
+    autocmd BufNewFile *.sh 0put =\"#!/usr/bin/env bash\<nl>#\<nl># Usage: \<nl># Author: Summer(qingyun_wu@bestsign.cn)\" | $ 
     autocmd BufNewFile *.py exec 'set keywordprg=pydoc' 
 augroup END
 
@@ -272,7 +272,7 @@ endif
 " let g:EchoFuncShowOnStatus = 1
 
 " configuration for jedi-vim 
-let g:jedi#force_py_version = 3
+let g:jedi#force_py_version = 2
 
 set rtp+=${HOME}/.vim/bundle/Vundle.vim
 call vundle#begin()
