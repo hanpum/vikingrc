@@ -218,7 +218,7 @@ map mcam <ESC> :wa <CR> :make clean; make <CR>
 
 
 " map key for generate typedef from head file
-map <C-T> <ESC> :wa <CR> : let b:buf_cmd = "r !sed -n '/^struct/{ s=struct \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef struct \\1 \\1_t;=p};/^enum/{ s=enum \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef enum \\1 \\1_t;=p}' " .  expand("%") <CR> : exec b:buf_cmd <CR>
+" map <C-T> <ESC> :wa <CR> : let b:buf_cmd = "r !sed -n '/^struct/{ s=struct \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef struct \\1 \\1_t;=p};/^enum/{ s=enum \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef enum \\1 \\1_t;=p}' " .  expand("%") <CR> : exec b:buf_cmd <CR>
 
 set runtimepath+=$HOME/.vim/vimgdb_1.2
 

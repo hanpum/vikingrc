@@ -1,5 +1,6 @@
 # install brew
     https://www.jianshu.com/p/2ca8a4e47dff
+    git checkout summer
 
 # install iterm2
     ```bash
