@@ -124,8 +124,11 @@ set wildmode=longest:full,list:full
 "**********************************************************
 " mapping 
 "**********************************************************
+let mapleader=" "
+
 " maps with configuration file 
-map ,ee : e ~/.vimrc <CR>
+nnoremap <leader>ee :tabnew ~/.vimrc <CR>
+nnoremap <leader>ss :so ~/.vimrc <CR>
 
 map <Up> gk 
 map <Down> gj
@@ -141,7 +144,9 @@ inoremap <expr> <CR>        pumvisible() ? "\<C-Y>" : "\<CR>"
 
 "**********************************************************
 " configuration for all plugins 
+"
 "**********************************************************
+" set rtp+=$HOME/.vim/vjde
 
 " ++++++++++++++++++++++++++
 " doxygen 
@@ -150,18 +155,26 @@ set runtimepath+=$HOME/.vim/doxygenToolkit/
 let g:DoxygenToolkit_briefTag_pos="<++>"
 let g:DoxygenToolkit_authorName="hanpu <hanpu.mwx@alibaba-inc.com>"
 
+
+" ++++++++++++++++++++++++++
+" taglist
+" ++++++++++++++++++++++++++
+set runtimepath+=$HOME/.vim/taglist/
+nnoremap <leader>tt :TlistToggle <CR>
+
+
 " ++++++++++++++++++++++++++
 " omnicppcomplete 
 " ++++++++++++++++++++++++++
-" set runtimepath+=$HOME/.vim/omnicppcomplete/
-" set runtimepath+=$HOME/.vim/omnicppcomplete/after
+set runtimepath+=$HOME/.vim/omnicppcomplete/
+set runtimepath+=$HOME/.vim/omnicppcomplete/after
 
 " map for generate tags file 
 function! Gentags() 
     exec "!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q ."
 endfunction
 map <C-F12> :call Gentags() <CR>
-map <C-F2> :make <CR>
+map <C-F2> :make -j<CR>
 
 let OmniCpp_MayCompleteDot = 1
 let OmniCpp_MayCompleteScope = 1
@@ -206,6 +219,7 @@ set foldclose=all
 " disable using mouse select text
 set mouse-=a
 
+
 " some key for make
 map <F2> <ESC> :wa <CR> :make <CR>
 imap <F2> <ESC> :wa <CR> :make <CR>
@@ -213,12 +227,14 @@ map <F3> <ESC> :cn <CR>
 map <F4> <ESC> :cp <CR>
 map <F5> <ESC> :wa <CR> : exec "! chmod +x " . expand("%") <CR> :exec "e" <CR> :let b:buf_cmd = "! ./" . expand("%") <CR> : exec b:buf_cmd <CR>
 
+
 " make clean and make
 map mcam <ESC> :wa <CR> :make clean; make <CR>
 
 
 " map key for generate typedef from head file
 map <C-T> <ESC> :wa <CR> : let b:buf_cmd = "r !sed -n '/^struct/{ s=struct \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef struct \\1 \\1_t;=p};/^enum/{ s=enum \\([a-z_A-Z]\\{1,\\}\\)[ \\t]*{=typedef enum \\1 \\1_t;=p}' " .  expand("%") <CR> : exec b:buf_cmd <CR>
+
 
 set runtimepath+=$HOME/.vim/vimgdb_1.2
 
@@ -259,6 +275,7 @@ augroup json_autocmd
   autocmd FileType json set expandtab 
   autocmd FileType json set foldmethod=syntax 
   com! FormatJSON % ! $HOME/.vim/tools/jsonFormat
+  com! UnpackJSON % ! $HOME/.vim/tools/unpackJson
 augroup END
 
 
@@ -267,25 +284,35 @@ if filereadable(".workspace.vim")
     source .workspace.vim
 endif
 
-" configuration for echofunc
-" set statusline+=%{EchoFuncGetStatusLine()}
-" let g:EchoFuncShowOnStatus = 1
 
-" configuration for jedi-vim 
-let g:jedi#force_py_version = 3
-
-set rtp+=${HOME}/.vim/bundle/Vundle.vim
+set rtp+=${HOME}/.vim/Vundle.vim
 call vundle#begin()
-" Plugin 'davidhalter/jedi-vim'
-" Plugin 'VundleVim/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'mxw/vim-jsx'
-" Plugin 'mattn/emmet-vim'
-" Plugin 'marijnh/tern_for_vim'
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'Valloric/YouCompleteMe'
+    Plugin 'Valloric/ListToggle'
+    Plugin 'airblade/vim-gitgutter'
+    "Plugin 'zxqfl/tabnine-vim'
 call vundle#end()
 
-let g:ycm_global_ycm_extra_conf="~/.vim/bundle/res/ycm_extra_conf.py"
+let g:gitgutter_max_signs=10240
+
+" configuration for ListToggle
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+
+
+" configuration for ycm
+nnoremap <leader>goto :YcmCompleter GoTo<CR>
+nnoremap <leader>gi :YcmCompleter GoToInclude<CR>
+nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>gt :YcmCompleter GetType<CR>
+nnoremap <leader>gp :YcmCompleter GetParent<CR>
+nnoremap <leader>gd :YcmCompleter GetDoc<CR>
+nnoremap <leader>f :YcmCompleter FixIt<CR>
+
+let g:ycm_use_clangd = 1
+let g:ycm_always_populate_location_list = 1
+let g:ycm_global_ycm_extra_conf="~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py"
 let g:ycm_add_preview_to_completeopt=1
 let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
@@ -306,3 +333,7 @@ let g:ycm_semantic_triggers =  {
 
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+
+set updatetime=100
+
+nnoremap <leader>tmp : exec 'tabnew ' . tempname() <CR>
