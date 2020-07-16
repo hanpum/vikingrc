@@ -1,88 +1,72 @@
-#!/usr/bin/env python
-# coding: utf-8
+# This file is NOT licensed under the GPLv3, which is the license for the rest
+# of YouCompleteMe.
 #
-# Usage: 
-# Author: hanpu(hanpu.mwx@alibaba-inc.com)
+# Here's the license text for this file:
+#
+# This is free and unencumbered software released into the public domain.
+#
+# Anyone is free to copy, modify, publish, use, compile, sell, or
+# distribute this software, either in source code form or as a compiled
+# binary, for any purpose, commercial or non-commercial, and by any
+# means.
+#
+# In jurisdictions that recognize copyright laws, the author or authors
+# of this software dedicate any and all copyright interest in the
+# software to the public domain. We make this dedication for the benefit
+# of the public at large and to the detriment of our heirs and
+# successors. We intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to this
+# software under copyright law.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+# For more information, please refer to <http://unlicense.org/>
 
-import sys
-import os
-import ycm_core
-from clang_helpers import PrepareClangFlags
+import os.path as p
+import subprocess
 
-# Set this to the absolute path to the folder (NOT the file!) containing the
-# compile_commands.json file to use that instead of 'flags'. See here for
-# more details: http://clang.llvm.org/docs/JSONCompilationDatabase.html
-# Most projects will NOT need to set this to anything; you can just change the
-# 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = ''
-
-# These are the compilation flags that will be used in case there's no
-# compilation database set.
-flags = [
-    '-Wall',
-    '-std=c++11',
-    '-stdlib=libc++',
-    '-x',
-    'c++',
-    '-I',
-    '.',
-    '-isystem',
-    '/usr/lib/c++/v1'
-]
-
-if compilation_database_folder:
-    database = ycm_core.CompilationDatabase(compilation_database_folder)
-else:
-    database = None
-
-
-def DirectoryOfThisScript():
-    return os.path.dirname(os.path.abspath(__file__))
+DIR_OF_THIS_SCRIPT = p.abspath( p.dirname( __file__ ) )
+DIR_OF_THIRD_PARTY = p.join( DIR_OF_THIS_SCRIPT, 'third_party' )
 
 
-def MakeRelativePathsInFlagsAbsolute(flags, working_directory):
-    if not working_directory:
-        return flags
-    new_flags = []
-    make_next_absolute = False
-    path_flags = ['-isystem', '-I', '-iquote', '--sysroot=']
-    for flag in flags:
-        new_flag = flag
-
-        if make_next_absolute:
-            make_next_absolute = False
-            if not flag.startswith('/'):
-                new_flag = os.path.join(working_directory, flag)
-
-        for path_flag in path_flags:
-            if flag == path_flag:
-                make_next_absolute = True
-                break
-
-            if flag.startswith(path_flag):
-                path = flag[len(path_flag):]
-                new_flag = path_flag + os.path.join(working_directory, path)
-                break
-
-        if new_flag:
-            new_flags.append(new_flag)
-    return new_flags
+def GetStandardLibraryIndexInSysPath( sys_path ):
+  for index, path in enumerate( sys_path ):
+    if p.isfile( p.join( path, 'os.py' ) ):
+      return index
+  raise RuntimeError( 'Could not find standard library path in Python path.' )
 
 
-def FlagsForFile(filename):
-    if database:
-        # Bear in mind that compilation_info.compiler_flags_ does NOT return a
-        # python list, but a "list-like" StringVec object
-        compilation_info = database.GetCompilationInfoForFile(filename)
-        final_flags = PrepareClangFlags(
-            MakeRelativePathsInFlagsAbsolute(
-                compilation_info.compiler_flags_,
-                compilation_info.compiler_working_dir_),
-            filename)
-    else:
-        relative_to = DirectoryOfThisScript()
-        final_flags = MakeRelativePathsInFlagsAbsolute(flags, relative_to)
+def PythonSysPath( **kwargs ):
+  sys_path = kwargs[ 'sys_path' ]
 
-    return {
-        'flags': final_flags,
-        'do_cache': True}
+  dependencies = [ p.join( DIR_OF_THIS_SCRIPT, 'python' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'requests-futures' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'ycmd' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'requests_deps', 'idna' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'requests_deps', 'chardet' ),
+                   p.join( DIR_OF_THIRD_PARTY,
+                           'requests_deps',
+                           'urllib3',
+                           'src' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'requests_deps', 'certifi' ),
+                   p.join( DIR_OF_THIRD_PARTY, 'requests_deps', 'requests' ) ]
+
+  # The concurrent.futures module is part of the standard library on Python 3.
+  interpreter_path = kwargs[ 'interpreter_path' ]
+  major_version = int( subprocess.check_output( [
+    interpreter_path, '-c', 'import sys; print( sys.version_info[ 0 ] )' ]
+  ).rstrip().decode( 'utf8' ) )
+  if major_version == 2:
+    dependencies.append( p.join( DIR_OF_THIRD_PARTY, 'pythonfutures' ) )
+
+  sys_path[ 0:0 ] = dependencies
+  sys_path.insert( GetStandardLibraryIndexInSysPath( sys_path ) + 1,
+                   p.join( DIR_OF_THIRD_PARTY, 'python-future', 'src' ) )
+
+  return sys_path

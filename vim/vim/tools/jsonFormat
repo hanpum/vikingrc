@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 #
 # Usage: 
@@ -16,13 +16,10 @@ def fmt(fname):
     fid.close()
 
     data = '\n'.join(lines)
-    print json.dumps(data, ensure_ascii=False)
+    print(json.dumps(data, ensure_ascii=False))
         
 
 if "__main__"==__name__:
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    
     if len(sys.argv)>1:
         fid = codecs.open(sys.argv[1], 'r', 'utf-8')
     else:
@@ -35,6 +32,6 @@ if "__main__"==__name__:
 
     try:
         data = json.loads('\n'.join(lines))
-        print json.dumps(data, ensure_ascii=False, indent=4)
-    except Exception,err:
+        print(json.dumps(data, ensure_ascii=False, indent=4))
+    except Exception as err:
         sys.stderr.write(err.message)
